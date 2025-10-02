@@ -58,7 +58,6 @@ public class GatherThenFail {
         return new Stock(id, new Random().nextInt(100));
     }
 
-
     private static Price priceApi(long id) throws InterruptedException {
         Thread.sleep(160); //simulate latency
         double price = BigDecimal.valueOf(new Random().nextDouble(100))
