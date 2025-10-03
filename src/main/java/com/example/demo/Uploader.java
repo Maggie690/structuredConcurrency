@@ -14,7 +14,6 @@ public class Uploader {
 
     void main() throws IOException, InterruptedException {
         Path tempDir = Files.createTempDirectory("imagesTest");
-        System.out.println(tempDir);
         for (int i = 0; i < 3; i++) {
             Files.createTempFile(tempDir, "img" + i, ".jpg");
         }
