@@ -39,6 +39,14 @@ public class EmailSender {
         }
     }
 
+    /**
+     *
+     *   openssl s_client -connect smtp.gmail.com:25 -starttls smtp
+     *   openssl s_client -connect imap.gmail.com:993 -starttls smtp
+     *
+     * @param image
+     * @param emails
+     */
     static void sendEmails(String image, List<String> emails) {
         Email email = EmailBuilder.startingBlank()
                 .from("from")
