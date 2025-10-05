@@ -15,3 +15,25 @@
 * **Exception safety:** Failures are handled consistently.
 * **Resource management:** No thread pool management needed.
 * **Composability:** Scopes can be nested and combined.
+
+
+# Different approach to processing items 
+
+## 1.Batch processing
+
+A Spring Batch component Job has one too many Steps, each of which has one ItemReader for reading the data from 
+the database or file, an ItemProcessor for modifying the read data from the file or database, and finally,
+an ItemWriter for writing the processed record to the desired destination. 
+A Job in the Spring Batch is launched with the JobLauncher, 
+and metadata about the currently running process is found to be stored in JobRepository.
+
+![spring-batch-model.png](src/main/resources/images/spring-batch-model.png)
+
+
+**Every item is processed one by one.**
+
+
+![batch_data.png](src/main/resources/images/batch_data.png)
+ 
+**All item are processed for around 50sec.**
+![batch_result.png](src/main/resources/images/batch_result.png)
