@@ -8,7 +8,7 @@ import java.util.concurrent.StructuredTaskScope;
 import java.util.logging.Logger;
 
 public class Uploader {
-    private static final Logger logger = Logger.getLogger(Uploader.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(Uploader.class.getName());
 
     enum Size {SMALL, MEDIUM, LARGE}
 
@@ -45,7 +45,7 @@ public class Uploader {
                 scope.join();
             }
         } catch (InterruptedException e) {
-            logger.info("Image is not uploaded - " + image.getFileName());
+            LOGGER.info("Image is not uploaded - " + image.getFileName());
         }
     }
 

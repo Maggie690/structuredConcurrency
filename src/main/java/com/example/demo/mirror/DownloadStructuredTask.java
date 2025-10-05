@@ -13,10 +13,10 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class DownloadStructuredTask {
-    private static final Logger logger = Logger.getLogger(DownloadStructuredTask.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(DownloadStructuredTask.class.getName());
 
     static void download(Path target, List<URI> mirrors) throws IOException, InterruptedException {
-        logger.info("Starting method 'download' to test 'StructuredTaskScope'");
+        LOGGER.info("Starting method 'download' to test 'StructuredTaskScope'");
 
         try (var scope = StructuredTaskScope.open(
                 StructuredTaskScope.Joiner.allSuccessfulOrThrow()

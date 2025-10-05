@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 
 
 public class DownloadExecutor {
-    private static final Logger logger = Logger.getLogger(DownloadExecutor.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(DownloadExecutor.class.getName());
 
     /**
      * Downside - if we have a failre we're still waiting all the threads to complete
@@ -22,7 +22,7 @@ public class DownloadExecutor {
      * @throws IOException
      */
     static Path download(Path target, List<URI> mirrors) throws IOException {
-        logger.info("Starting method 'download' to test 'ExecutorService'");
+        LOGGER.info("Starting method 'download' to test 'ExecutorService'");
 
         try (var executor = Executors.newVirtualThreadPerTaskExecutor();
              OutputStream out = Files.newOutputStream(target,
@@ -43,7 +43,7 @@ public class DownloadExecutor {
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 } catch (ExecutionException e) {
-                    logger.warning("Mirror failed: " + e.getCause());
+                    LOGGER.warning("Mirror failed: " + e.getCause());
                     throw new RuntimeException(e);
                 }
             }

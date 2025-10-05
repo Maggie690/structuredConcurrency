@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 public class Main {
-    private static final Logger logger = Logger.getLogger(Main.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
 
     static void main() throws URISyntaxException, IOException, InterruptedException {
         List<URI> mirrors = List.of(
@@ -24,7 +24,7 @@ public class Main {
     }
 
     static InputStream fetchFromMirror(URI uri) throws IOException {
-        logger.info("Trying: " + uri);
+        LOGGER.info("Trying: " + uri);
 
         URLConnection conn = uri.toURL().openConnection();
         return conn.getInputStream();
