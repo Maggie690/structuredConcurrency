@@ -37,3 +37,24 @@ and metadata about the currently running process is found to be stored in JobRep
  
 **All item are processed for around 50sec.**
 ![batch_result.png](src/main/resources/images/batch_result.png)
+
+## 2.Async processing
+
+![async_flow.png](src/main/resources/images/async_flow.png)
+
+
+**Items are processed as groups of 5 items simultaneously.
+The first 5 items will be processed in parallel on our 5 platform threads defined in the thread pool.
+And once each thread is released.**
+
+![async_start.png](src/main/resources/images/async_start.png)
+
+**Thread pool executor e configure to create 5 thread simultaneously.
+And that they are launched synchronously, one after the other.
+Threads run Java code directly on an underlying operating system thread.**
+
+![async_data.png](src/main/resources/images/async_data.png)
+
+
+**The same item are processed for around 11sec.**
+![async_result.png](src/main/resources/images/async_result.png)
