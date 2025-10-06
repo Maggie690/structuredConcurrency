@@ -1,5 +1,6 @@
 package com.example.demo.asynvirtual;
 
+import com.example.demo.asynvirtual.process.VirtualAsyncBatchConfiguration;
 import org.springframework.batch.core.*;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.repository.JobExecutionAlreadyRunningException;
@@ -15,6 +16,10 @@ public class StartService {
 
     @Autowired
     JobLauncher jobLauncher;
+
+//    @Autowired
+//    @Qualifier(BatchConfiguration.SYNC_JOB_NAME)
+//    Job syncJob;
 
 //    @Autowired
 //    @Qualifier(AsyncBatchConfiguration.ASYNC_JOB_NAME)

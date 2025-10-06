@@ -1,4 +1,4 @@
-package com.example.demo.asynvirtual;
+package com.example.demo.asynvirtual.process;
 
 import com.example.demo.asynvirtual.components.LogItemWriter;
 import com.example.demo.asynvirtual.components.NumberItemReader;
@@ -13,7 +13,6 @@ import org.springframework.batch.integration.async.AsyncItemProcessor;
 import org.springframework.batch.integration.async.AsyncItemWriter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -32,7 +31,7 @@ public class AsyncBatchConfiguration {
      * @param threadPoolTaskExecutor
      * @return
      */
-    @Bean("asyncItemProcessor")
+  //  @Bean("asyncItemProcessor")
     public AsyncItemProcessor<Integer, Integer> asyncItemProcessor(SyncItemProcessor itemProcessor,
                                                                    TaskExecutor threadPoolTaskExecutor) {
         var asyncItemProcessor = new AsyncItemProcessor<Integer, Integer>();
@@ -41,7 +40,7 @@ public class AsyncBatchConfiguration {
         return asyncItemProcessor;
     }
 
-    @Bean("threadPoolTaskExecutor")
+    //   @Bean("threadPoolTaskExecutor")
     public TaskExecutor threadPoolTaskExecutor() {
         var taskExecutor = new ThreadPoolTaskExecutor();
         taskExecutor.setCorePoolSize(5);
@@ -51,8 +50,8 @@ public class AsyncBatchConfiguration {
     }
 
     /**
-     *  'AsyncItemWriter<T> implements ItemStreamWriter<Future<T>>' return the Future object, because of that
-     *  AsyncItemWriter wraps our previous LogItemWriter and handles the asynchronous output from the processor.
+     * 'AsyncItemWriter<T> implements ItemStreamWriter<Future<T>>' return the Future object, because of that
+     * AsyncItemWriter wraps our previous LogItemWriter and handles the asynchronous output from the processor.
      *
      * @param itemWriter
      * @return
@@ -64,7 +63,7 @@ public class AsyncBatchConfiguration {
         return asyncItemWriter;
     }
 
-    @Bean("asyncStep")
+    // @Bean("asyncStep")
     public Step asyncStep(JobRepository jobRepository,
                           PlatformTransactionManager transactionManager,
                           NumberItemReader numberItemReader,
@@ -80,8 +79,7 @@ public class AsyncBatchConfiguration {
 
     }
 
-    @Primary
-    @Bean(ASYNC_JOB_NAME)
+    //    @Bean(ASYNC_JOB_NAME)
     public Job asyncJob(JobRepository jobRepository,
                         Step asyncStep) {
 

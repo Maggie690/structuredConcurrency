@@ -1,15 +1,16 @@
-package com.example.demo.asynvirtual;
+package com.example.demo.asynvirtual.process;
 
+//import com.example.demo.asynvirtual.components.JobListener;
 import com.example.demo.asynvirtual.components.LogItemWriter;
 import com.example.demo.asynvirtual.components.NumberItemReader;
 import com.example.demo.asynvirtual.components.SyncItemProcessor;
 import org.springframework.batch.core.Job;
+//import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.PlatformTransactionManager;
 
@@ -29,7 +30,7 @@ public class BatchConfiguration {
      * @param logItemWriter
      * @return Step
      */
-    @Bean
+  //  @Bean("syncStep")
     public Step syncStep(JobRepository jobRepository,
                          PlatformTransactionManager transactionManager,
                          NumberItemReader numberItemReader,
@@ -43,10 +44,11 @@ public class BatchConfiguration {
                 .build();
     }
 
-    @Bean(SYNC_JOB_NAME)
+  //  @Bean(SYNC_JOB_NAME)
     public Job syncJob(JobRepository jobRepository,
                        Step syncStep) {
         return new JobBuilder(SYNC_JOB_NAME, jobRepository)
+              //  .listener(jobListener())
                 .incrementer(new RunIdIncrementer())
                 .start(syncStep)
                 .build();

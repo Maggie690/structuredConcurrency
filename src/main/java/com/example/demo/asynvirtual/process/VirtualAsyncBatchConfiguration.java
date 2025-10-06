@@ -1,4 +1,4 @@
-package com.example.demo.asynvirtual;
+package com.example.demo.asynvirtual.process;
 
 import com.example.demo.asynvirtual.components.NumberItemReader;
 import com.example.demo.asynvirtual.components.SyncItemProcessor;
