@@ -16,9 +16,13 @@ public class StartService {
     @Autowired
     JobLauncher jobLauncher;
 
+//    @Autowired
+//    @Qualifier(AsyncBatchConfiguration.ASYNC_JOB_NAME)
+//    Job asyncJob;
+
     @Autowired
-    @Qualifier(AsyncBatchConfiguration.ASYNC_JOB_NAME)
-    Job asyncJob;
+    @Qualifier(VirtualAsyncBatchConfiguration.VIRTUAL_ASYNC_NAME)
+    Job virtualAsyncJob;
 
     public void run() {
         try (SimpleAsyncTaskExecutor taskExecutor = new SimpleAsyncTaskExecutor()) {
@@ -27,10 +31,10 @@ public class StartService {
 
                 try {
                     JobParameters jobParameters = new JobParametersBuilder()
-                            .addString(AsyncBatchConfiguration.ASYNC_JOB_NAME, "name 1")
+                            .addString(VirtualAsyncBatchConfiguration.VIRTUAL_ASYNC_NAME, "name 1")
                             .toJobParameters();
 
-                    jobLauncher.run(asyncJob, jobParameters);
+                    jobLauncher.run(virtualAsyncJob, jobParameters);
                 } catch (JobExecutionAlreadyRunningException | JobRestartException |
                          JobInstanceAlreadyCompleteException | JobParametersInvalidException e) {
                     throw new RuntimeException(e);

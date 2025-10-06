@@ -27,7 +27,7 @@ an ItemWriter for writing the processed record to the desired destination.
 A Job in the Spring Batch is launched with the JobLauncher, 
 and metadata about the currently running process is found to be stored in JobRepository.
 
-![spring-batch-model.png](src/main/resources/images/spring-batch-model.png)
+[<img src="src/main/resources/images/spring-batch-model.png" width="600"/>](src/main/resources/images/spring-batch-model.png)
 
 
 **Every item is processed one by one.**
@@ -40,7 +40,7 @@ and metadata about the currently running process is found to be stored in JobRep
 
 ## 2.Async processing
 
-![async_flow.png](src/main/resources/images/async_flow.png)
+[<img src="src/main/resources/images/async_flow.png" width="600"/>](src/main/resources/images/async_flow.png)
 
 
 **Items are processed as groups of 5 items simultaneously.
@@ -58,3 +58,52 @@ Threads run Java code directly on an underlying operating system thread.**
 
 **The same item are processed for around 11sec.**
 ![async_result.png](src/main/resources/images/async_result.png)
+
+## 3. VirtualThreadTaskExecutor
+
+**VirtualThreadTaskExecutor create 50 virtual threads /we defined in NumberItemReader/, allowing to process all the 50 items in parallel at the same time.**
+
+![virtual_data.png](src/main/resources/images/virtual_data.png)
+
+**Needed time to be proceeding all items is around 1 minutes and half.**
+
+![virtual_result.png](src/main/resources/images/virtual_result.png)
+
+Explanation:
+In previous test cases with simple batch processing and async used Platform thread. 
+They are bounded directly to the OS system. Consume significant amount of memory /around 1MB per thread/. 
+Platform are managed by OS scheduler.
+
+Java introduce new way to manage synchronize processes by Virtual thread. 
+They’re not directly connected to the OS, instead they’re managed by JVM scheduler. 
+When Virtual thread is ready its get mounted on a platform thread /carried thread/. 
+If Virtual thread has blocking operation JVM scheduler unmounted it from Platform thread. 
+When is completed with the blocking operation Virtual threads is unmount from Platform thread.
+Each Virtual Thread can be associated with multiple Platform Threads during its lifetime — one at a time though.
+If you think about the Virtual Thread executing many CPU operations, these may be executed by different Carrier Threads.
+Below the Platform threads, we have OS threads. These are managed by OS system. 
+Each Platform threads is managed by one of these OS threads. 
+OS doesn’t know for the exciting of virtual threads.
+
+[<img src="src/main/resources/images/virtualThread_diagram.png" width="500"/>](src/main/resources/images/virtualThread_diagram.png)
+
+**Downside:**
+
+*Platform threads:*
+- In a JVM, only a fixed number of Platform Threads can be created. The number of Platform Threads that can be created 
+    in a JVM will ultimately depend on the memory associated with the JVM as well as the Operating System.
+    Because of that they're expensive resource.
+
+*Virtual threads:*
+
+ - calling external web-services, it might become a problem if we send more calls simultaneously than they can handle.
+
+
+**Advantage:**
+
+- Virtual thread as a Thread with the advantage that during IO operation it will not hold on to important resources. 
+The IO operation could be file handling, socket read/write, locking and so on. 
+The application will end up using Platform Threads (in the form of Carrier Threads) ONLY during CPU operations. 
+During the IO operations, the Carrier Threads are released and free to be used by other users.
+- improves the scalability /because Carrier Threads/
+- lightweight
